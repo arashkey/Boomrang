@@ -1,0 +1,78 @@
+﻿<Page x:Class="BoomrangInc.Views.Pages.TermAddPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:local="clr-namespace:Wpf.Util" 
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+     Loaded="Page_Loaded"  Height="200">
+
+    <Grid x:Name="LayoutRoot"   local:AccessKeyScoper.IsAccessKeyScope="True" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Border Style="{StaticResource HeaderedBorderStyle}"  Height="200"  >
+            <Grid  Height="200">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"
+                                   Grid.Row="0"
+                                   VerticalAlignment="Bottom"><Run Text="نام ترم(*)" /></TextBlock>
+                <TextBox x:Name="Name"
+                                 Grid.Column="1"
+                                 Grid.Row="0" 
+                                 Width="150"
+                                 Margin="2" AutomationProperties.AutomationId="NameText"/>
+                <TextBlock Grid.Column="0"
+                                   Grid.Row="1"
+                                   VerticalAlignment="Bottom"><Run Text="فصل" /></TextBlock>
+                <TextBox x:Name="Season"
+                                 Grid.Column="1"
+                                 Grid.Row="1"
+                                 
+                                 Width="150"
+                                 Margin="2" AutomationProperties.AutomationId="NameText" />
+
+                <TextBlock Grid.Column="0"
+                                   Grid.Row="2"
+                                   VerticalAlignment="Bottom"><Run Text="سال(*)" /></TextBlock>
+                <TextBox x:Name="Year"
+                                 Grid.Row="2"
+                                 Grid.Column="1"
+                                 Width="150"
+                                 Margin="2" AutomationProperties.AutomationId="NameText" />
+
+                <TextBlock      Grid.Row="3"
+                                Grid.Column="0"
+                                VerticalAlignment="Bottom"><Run Text="سال جاری(*)" /></TextBlock>
+                <CheckBox    Name="IsCurrentTerm"    
+                            Grid.Row="3"  
+                            Grid.Column="1" />
+                
+                <StackPanel Grid.Column="1" Grid.Row="5" Orientation="Horizontal">
+                    <Button Name="Save1" Content="ذخیره" Width="100"  Margin="2" Click="Save_Click" IsDefault="True"  ></Button>
+                    <Button Name="Edit" Content="ویرایش" Width="100"  Margin="2" Click="Edit_Click"  ></Button>
+                    <Button Name="Delete" Content="حذف" Width="100"  Margin="2"   Click="Delete_Click" ></Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+
+
+
+    </Grid>
+</Page>

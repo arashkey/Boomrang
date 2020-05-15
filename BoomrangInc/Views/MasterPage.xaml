@@ -1,0 +1,232 @@
+﻿<Window x:Class="BoomrangInc.Views.MasterPage"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:local="clr-namespace:Wpf.Util" 
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+       
+        xmlns:ribbon="clr-namespace:Microsoft.Windows.Controls.Ribbon;assembly=RibbonControlsLibrary"
+        xmlns:views="clr-namespace:BoomrangInc.Views"
+        mc:Ignorable="d"
+        Title="مدیریت بومرنگ"
+        Height="350"
+        Width="525"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        Loaded="Window_Loaded" Icon="/BoomrangInc;component/boomerang.ico">
+    <!--d:DataContext="{d:DesignInstance basicMvvmQuickstartDesktop:PersonViewModelDesign, IsDesignTimeCreatable=True}"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+    -->
+
+    <Grid x:Name="LayoutRoot"
+          Background="{StaticResource MainBackground}">
+        <Grid MinWidth="300"
+           >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="140" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition  Height="200"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="1"
+                        Orientation="Horizontal">
+                <TextBlock HorizontalAlignment="Left"
+                           Width="Auto"
+                           Text="موسسه"
+                           FontWeight="Bold"
+                           Foreground="#FFFFFFFF"
+                           FontSize="24"
+                           Margin="5" />
+
+                <TextBlock HorizontalAlignment="Left"
+                           Width="Auto"
+                           Text="بومرنگ"
+                           FontWeight="Normal"
+                           Foreground="#FFFFFFFF"
+                           FontSize="24"
+                           VerticalAlignment="Center" />
+                <TextBlock Name="PageName"
+                           HorizontalAlignment="Left"
+                           Width="Auto"
+                           Text=": صفحه اصلی"
+                           FontWeight="Normal"
+                           Foreground="#F0F0FF"
+                           FontSize="24"
+                           VerticalAlignment="Center" />
+            </StackPanel>
+
+            <!--<views:PersonView Grid.Row="1"
+                              DataContext="{Binding PersonViewModel}"
+                              Height="246" 
+                              VerticalAlignment="Top">
+            </views:PersonView>-->
+            <DockPanel>
+                <DockPanel.Resources>
+                    <Style TargetType="ribbon:RibbonButton">
+                        <Setter  Property="Width" Value="100"/>
+                        <Setter  Property="MinWidth" Value="100"/>
+                        <Setter  Property="Height" Value="50"/>
+                        <Setter  Property="MinHeight" Value="50"/>
+                        <Setter  Property="VerticalAlignment" Value="Center"/>
+                        <Setter  Property="VerticalContentAlignment" Value="Center"/>
+                        <Setter  Property="HorizontalAlignment" Value="Center"/>
+                        <Setter  Property="HorizontalContentAlignment" Value="Center"/>
+                    </Style>
+                </DockPanel.Resources>
+                <ribbon:Ribbon x:Name="RibbonWinV2"  SelectedIndex="0"   FontFamily="B Titr" FontSize="10">
+                    <ribbon:Ribbon.QuickAccessToolBar>
+                        <ribbon:RibbonQuickAccessToolBar>
+                            <ribbon:RibbonButton x:Name ="Save2"  />
+
+                        </ribbon:RibbonQuickAccessToolBar>
+                    </ribbon:Ribbon.QuickAccessToolBar>
+                    <ribbon:Ribbon.ApplicationMenu>
+                        <ribbon:RibbonApplicationMenu KeyTip="F">
+                            <ribbon:RibbonApplicationMenuItem Header="تنظیمات کلی" />
+                            <ribbon:RibbonApplicationMenuItem Name="Exit1" Header="خروج" Click="Exit_Click"/>
+                        </ribbon:RibbonApplicationMenu>
+                    </ribbon:Ribbon.ApplicationMenu>
+                    <ribbon:RibbonTab Header="اطلاعات مربوط به افراد"  >
+                        <ribbon:RibbonGroup Header="افراد">
+                            <ribbon:RibbonControlGroup>
+                                <ribbon:RibbonControlGroup.ControlSizeDefinition>
+                                    <ribbon:RibbonControlSizeDefinition ImageSize="Large" IsLabelVisible="True" />
+                                </ribbon:RibbonControlGroup.ControlSizeDefinition>
+                                <ribbon:RibbonButton Label=" افراد" 
+                                                 Click="ButtonShow_Click" 
+                                                 Tag="Person"  
+                                  LargeImageSource="/BoomrangInc;component/Images/Menu/Person.png"   >
+                                </ribbon:RibbonButton>
+                            </ribbon:RibbonControlGroup>
+                        </ribbon:RibbonGroup>
+                        <ribbon:RibbonGroup Header="ثبت نام">
+                            <ribbon:RibbonControlGroup>
+                                <ribbon:RibbonControlGroup.ControlSizeDefinition>
+                                    <ribbon:RibbonControlSizeDefinition ImageSize="Large" IsLabelVisible="True" />
+                                </ribbon:RibbonControlGroup.ControlSizeDefinition>
+                                <ribbon:RibbonButton Label=" ثبت نام" 
+                                                 Click="ButtonShow_Click" 
+                                                 Tag="Registery"
+                                                 LargeImageSource="/BoomrangInc;component/Images/Menu/Registery.png"
+                                  
+                                                 >
+                                </ribbon:RibbonButton>
+                            </ribbon:RibbonControlGroup>
+                        </ribbon:RibbonGroup>
+                    </ribbon:RibbonTab>
+
+                    <ribbon:RibbonTab Header="کارگاه ها"  >
+                        <ribbon:RibbonGroup Header="کارگاه ها">
+                            <ribbon:RibbonControlGroup>
+                                <ribbon:RibbonControlGroup.ControlSizeDefinition>
+                                    <ribbon:RibbonControlSizeDefinition ImageSize="Large" IsLabelVisible="True" />
+                                </ribbon:RibbonControlGroup.ControlSizeDefinition>
+                                <ribbon:RibbonButton Label=" کارگاه ها" 
+                                                 Click="ButtonShow_Click" 
+                                                 Tag="Workshop"
+                                                 LargeImageSource="/BoomrangInc;component/Images/Menu/Workshop.png"
+
+                                                 >
+                                </ribbon:RibbonButton>
+                            </ribbon:RibbonControlGroup>
+                        </ribbon:RibbonGroup>
+                    </ribbon:RibbonTab>
+
+                    <ribbon:RibbonTab Header="کاربران"  >
+                        <ribbon:RibbonGroup Header="کاربران">
+                            <ribbon:RibbonControlGroup>
+                                <ribbon:RibbonControlGroup.ControlSizeDefinition>
+                                    <ribbon:RibbonControlSizeDefinition ImageSize="Large" IsLabelVisible="True" />
+                                </ribbon:RibbonControlGroup.ControlSizeDefinition>
+                                <ribbon:RibbonButton Label=" کاربران" 
+                                                 Click="ButtonShow_Click" 
+                                                 Tag="User"
+                                                 LargeImageSource="/BoomrangInc;component/Images/Menu/User.png">
+                                </ribbon:RibbonButton>
+                            </ribbon:RibbonControlGroup>
+                        </ribbon:RibbonGroup>
+                    </ribbon:RibbonTab>
+
+                    <ribbon:RibbonTab Header="گزارشات"  >
+                        <ribbon:RibbonGroup Header="گزارشات">
+                            <ribbon:RibbonControlGroup>
+                                <ribbon:RibbonControlGroup.ControlSizeDefinition>
+                                    <ribbon:RibbonControlSizeDefinition ImageSize="Large" IsLabelVisible="True" />
+                                </ribbon:RibbonControlGroup.ControlSizeDefinition>
+                                <ribbon:RibbonButton Label=" گزارشات" 
+                                                 Click="ButtonShow_Click" 
+                                                 Tag="Report"
+                                                 LargeImageSource="/BoomrangInc;component/Images/Menu/Report.png">
+                                </ribbon:RibbonButton>
+                            </ribbon:RibbonControlGroup>
+                        </ribbon:RibbonGroup>
+                    </ribbon:RibbonTab>
+                    <ribbon:RibbonTab Header=" اطلاعات پایه"  >
+                        <ribbon:RibbonGroup Header="اساتید">
+                            <ribbon:RibbonControlGroup>
+                                <ribbon:RibbonControlGroup.ControlSizeDefinition>
+                                    <ribbon:RibbonControlSizeDefinition ImageSize="Large" IsLabelVisible="True" />
+                                </ribbon:RibbonControlGroup.ControlSizeDefinition>
+                                <ribbon:RibbonButton Label=" اساتید" 
+                                                 Click="ButtonShow_Click" 
+                                                 Tag="Teacher"
+                                                 LargeImageSource="/BoomrangInc;component/Images/Menu/Teacher.png">
+                                </ribbon:RibbonButton>
+                            </ribbon:RibbonControlGroup>
+                            <ribbon:RibbonControlGroup>
+                                <ribbon:RibbonControlGroup.ControlSizeDefinition>
+                                    <ribbon:RibbonControlSizeDefinition ImageSize="Large" IsLabelVisible="True" />
+                                </ribbon:RibbonControlGroup.ControlSizeDefinition>
+                                <ribbon:RibbonButton Label="ترم تحصیلی" 
+                                                 Click="ButtonShow_Click" 
+                                                 Tag="Term" 
+                                                 LargeImageSource="/BoomrangInc;component/Images/Menu/Term.png">
+                                </ribbon:RibbonButton>
+                            </ribbon:RibbonControlGroup>
+                        </ribbon:RibbonGroup>
+                    </ribbon:RibbonTab>
+                    <ribbon:RibbonTab Header="پشتیبان گیری"  >
+                        <ribbon:RibbonGroup Header="پشتیبان گیری">
+                            <ribbon:RibbonControlGroup>
+                                <ribbon:RibbonControlGroup.ControlSizeDefinition>
+                                    <ribbon:RibbonControlSizeDefinition ImageSize="Large" IsLabelVisible="True" />
+                                </ribbon:RibbonControlGroup.ControlSizeDefinition>
+                                <ribbon:RibbonButton Label=" پشتیبان گیری" 
+                                                 Click="ButtonShow_Click" 
+                                                 Tag="BackupAndRestore"
+                                                 LargeImageSource="/BoomrangInc;component/Images/Menu/BackupAndRestore.png">
+                                </ribbon:RibbonButton>
+                            </ribbon:RibbonControlGroup>
+                        </ribbon:RibbonGroup>
+                    </ribbon:RibbonTab>
+                </ribbon:Ribbon>
+
+            </DockPanel>
+            <!-- show data text bar here -->
+            <ScrollViewer Grid.Row="2">
+                <Frame  
+                   Name="AddFrame" 
+                   NavigationUIVisibility="Hidden" 
+                   Content=""  
+                   HorizontalContentAlignment="Stretch" 
+                    ScrollViewer.CanContentScroll="True"
+                   ScrollViewer.HorizontalScrollBarVisibility="Visible" 
+                   ScrollViewer.VerticalScrollBarVisibility="Hidden" 
+                   />
+            </ScrollViewer>
+
+            <!-- show grid view here -->
+            <ScrollViewer Grid.Row="3">
+                <Frame  
+                   Name="GridViewFrame" 
+                   NavigationUIVisibility="Hidden" 
+                   Content=""  
+                   HorizontalContentAlignment="Stretch" 
+                    ScrollViewer.CanContentScroll="True"
+                   ScrollViewer.HorizontalScrollBarVisibility="Visible" 
+                   ScrollViewer.VerticalScrollBarVisibility="Hidden" 
+                   />
+            </ScrollViewer>
+
+        </Grid>
+    </Grid>
+</Window>

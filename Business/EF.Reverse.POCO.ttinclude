@@ -1,0 +1,248 @@
+<#
+// Copyright © Simon Hughes 2012
+#>
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration;
+using System.Linq;
+using System.Linq.Dynamic;
+
+namespace <#= Namespace #>
+{
+    // ************************************************************************
+    // Database context
+    public <# if(MakeClassesPartial) { #>partial <# } #>class <#=DbContextName#> : DbContext
+    {
+<#
+foreach(Table tbl in from t in tables.OrderBy(x => x.NameHumanCase) select t)
+{
+#>
+        public IDbSet<<#=tbl.NameHumanCase#>> <#=tbl.NameHumanCase#> { get; set; } // <#=tbl.Name#>
+<# } #>
+
+        static <#=DbContextName#>()
+        {
+            Database.SetInitializer<<#=DbContextName#>>(null);
+        }
+
+        public <#=DbContextName#>()
+            : base("Name=<#=ConnectionStringName#>")
+        {
+        }
+
+        public <#=DbContextName#>(string connectionString) : base(connectionString)
+        {
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+<#
+foreach(Table tbl in from t in tables.OrderBy(x => x.NameHumanCase) select t)
+{
+#>
+            modelBuilder.Configurations.Add(new <#=tbl.NameHumanCase#>Configuration());
+<# } #>
+        }
+    }
+
+    // ************************************************************************
+    // POCO classes
+
+<#
+foreach(Table tbl in from t in tables.OrderBy(x => x.NameHumanCase) select t)
+{
+#>
+    // <#=tbl.Name#>
+    public <# if(MakeClassesPartial) { #>partial <# } #>class <#=tbl.NameHumanCase#> : IBasicClassForInheritance
+    {
+		public static int Count()
+        {
+            return MyDbContext.db.<#=tbl.NameHumanCase#>.Count();
+        }
+		public static <#=tbl.NameHumanCase#> GetById(int id)
+        {
+            return MyDbContext.db.<#=tbl.NameHumanCase#>.FirstOrDefault(x => x.<#=tbl.Name#>Id == id);
+        }
+		public static bool Remove(int id)
+        { 
+            try
+            {
+                MyDbContext.db.<#=tbl.NameHumanCase#>.Remove(GetById(id));
+
+                MyDbContext.db.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MyUtility.ExceptionReport.log(ex);
+                return false;
+            }
+        }
+		public static <#=tbl.NameHumanCase#> AddOrUpdate(<#=tbl.NameHumanCase#> item)
+        {
+            var newItem = GetById(item.<#=tbl.Name#>Id) ?? new <#=tbl.NameHumanCase#>();
+<#
+foreach(Column col in tbl.Columns.OrderBy(x => x.Ordinal))
+{
+#>
+			newItem.<#=col.Name #> = item.<#=col.Name #>;
+<# } #>
+			newItem.UserChangeId = GlobalVariable.UserId;
+
+            try
+            {
+                if (newItem.<#=tbl.Name#>Id <= 0)
+				{ 
+					newItem.<#=tbl.Name#>Id = 0; 
+					newItem=MyDbContext.db.<#=tbl.NameHumanCase#>.Add(newItem);
+				}
+
+                MyDbContext.db.SaveChanges();
+
+                return newItem;
+            }
+            catch (Exception ex)
+            {
+                MyUtility.ExceptionReport.log(ex);
+                return null;
+            }
+        }
+        public static IQueryable<<#=tbl.NameHumanCase#>> Search(<#=tbl.NameHumanCase#> search)
+        {
+			<#=tbl.NameHumanCase#> defaultItem = new <#=tbl.NameHumanCase#>();
+            var result = from x in MyDbContext.db.<#=tbl.NameHumanCase#>
+						 select x;                         
+<#foreach(Column col in tbl.Columns.OrderBy(x => x.Ordinal))
+{#>
+			if(search.<#=col.Name #> != defaultItem.<#=col.Name #>)
+				result=result.Where(x=> <#if(col.PropertyType == "string"){#>x.<#=col.Name #>.Contains(search.<#=col.Name #>))<#	}else{#>x.<#=col.Name #> == search.<#=col.Name #>)<#	}#>;
+<#}#>
+            return result;
+        } 
+		public static List<<#=tbl.NameHumanCase#>> GetData(int maximumRows, int startPageIndex, int startRowIndex)
+		{
+			return GetData(maximumRows, startPageIndex, startRowIndex, "");
+		}
+		public static List<<#=tbl.NameHumanCase#>> GetData(int maximumRows, int startPageIndex, int startRowIndex, string sortParameter)
+        {
+			if (string.IsNullOrEmpty(sortParameter))
+                sortParameter = "<#=tbl.Name#>Id";
+			return MyDbContext.db.<#=tbl.NameHumanCase#>.OrderBy(sortParameter).Skip(startRowIndex).Take(maximumRows).ToList();
+		}
+		public static int GetDataCount(int maximumRows, int startPageIndex, int startRowIndex)
+        {
+			return MyDbContext.db.<#=tbl.NameHumanCase#>.Count();
+		}
+		public static List<<#=tbl.NameHumanCase#>> GetAll()
+        {
+			return MyDbContext.db.<#=tbl.NameHumanCase#>.ToList();
+		}
+
+<#
+foreach(Column col in tbl.Columns.OrderBy(x => x.Ordinal))
+{
+#>
+        <#=col.Entity #>
+<# } #>
+<#
+if(tbl.ReverseNavigationProperty.Count() > 0)
+{
+#>
+
+        // Reverse navigation
+<#
+foreach(string s in tbl.ReverseNavigationProperty)
+{
+#>
+        <#=s #>;
+<# } } #>
+<# if(tbl.HasForeignKey) { #>
+
+		// For getting username of last person that chenge the recourd
+		public string UsernameOfChange
+        { get { return this.UserChangeId <= 0 ? "" : Security_User.GetById(this.UserChangeId).Username; } }
+
+        // Foreign keys
+<#
+foreach(Column col in from c in tbl.Columns.OrderBy(x => x.Ordinal) where c.EntityFk != null select c)
+{
+#>
+        <#=col.EntityFk #>
+<# } } #>
+<# 
+if(tbl.Columns.Where(c => c.Default != string.Empty).Count() > 0 || tbl.ReverseNavigationCtor.Count() > 0) 
+{ 
+#>
+
+        public <#=tbl.NameHumanCase#>()
+        {
+<#
+foreach(Column col in tbl.Columns.OrderBy(x => x.Ordinal).Where(c => c.Default != string.Empty))
+{
+#>
+            <#=col.PropertyNameHumanCase #> = <#=col.Default #>;
+<# } #>
+<#
+foreach(string s in tbl.ReverseNavigationCtor)
+{
+#>
+            <#=s #>
+<# } #>
+        }
+<# } #>
+    }
+
+<# } #>
+
+    // ************************************************************************
+    // POCO Configuration
+
+<#
+foreach(Table tbl in tables.OrderBy(x => x.NameHumanCase))
+{
+#>
+    // <#=tbl.Name#>
+    public <# if(MakeClassesPartial) { #>partial <# } #>class <#=tbl.NameHumanCase#>Configuration : EntityTypeConfiguration<<#=tbl.NameHumanCase#>>
+    {
+        public <#=tbl.NameHumanCase#>Configuration()
+        {
+            ToTable("<#=tbl.Schema#>.<#=tbl.Name#>");
+            HasKey(<#=tbl.PrimaryKeyNameHumanCase()#>);
+
+<#
+foreach(Column col in tbl.Columns.OrderBy(x => x.Ordinal))
+{
+#>
+            <#=col.Config #>
+<# } #>
+<#
+if(tbl.ReverseNavigationConfiguration.Count() > 0)
+{
+#>
+
+            // Reverse navigation
+<#
+foreach(string s in tbl.ReverseNavigationConfiguration)
+{
+#>
+            <#=s #>;
+<# } } #>
+<# if(tbl.HasForeignKey) { #>
+
+            // Foreign keys
+<#
+foreach(Column col in from c in tbl.Columns.OrderBy(x => x.Ordinal) where c.ConfigFk != null select c)
+{
+#>
+            <#=col.ConfigFk #>
+<# } } #>
+        }
+    }
+
+<# } #>
+}

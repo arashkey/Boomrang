@@ -1,0 +1,311 @@
+﻿<Page x:Class="BoomrangInc.Views.Pages.PersonAddPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:local="clr-namespace:Wpf.Util" 
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:my="http://schemas.microsoft.com/wpf/2008/toolkit"
+      mc:Ignorable="d" 
+     Loaded="Page_Loaded"  Height="200">
+
+    <Grid x:Name="LayoutRoot"  Height="200">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Border Style="{StaticResource HeaderedBorderStyle}"  Height="200" local:AccessKeyScoper.IsAccessKeyScope="True"  >
+            <ScrollViewer  Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Visible">
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                    <Grid  >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom"><Run Text="نام(*)" /></TextBlock>
+                        <TextBox x:Name="Name" Grid.Column="1" Grid.Row="0"  Width="140" Margin="2" AutomationProperties.AutomationId="NameText"/>
+
+                        <TextBlock Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom"><Run Text="نام خانوادگی(*)" /></TextBlock>
+                        <TextBox x:Name="Family" Grid.Column="1" Grid.Row="1"  Width="140" Margin="2" AutomationProperties.AutomationId="NameText" />
+
+                        <TextBlock  Grid.Row="2" VerticalAlignment="Bottom"><Run Text="نام پدر(*)" /></TextBlock>
+                        <TextBox x:Name="Father" Grid.Row="2"  Grid.Column="1" Width="140" Margin="2" AutomationProperties.AutomationId="NameText" />
+
+                        <TextBlock  Grid.Row="0" Grid.Column="2" VerticalAlignment="Bottom"><Run Text="نام مادر (*)" /></TextBlock>
+                        <TextBox x:Name="Mother" Grid.Row="0"  Grid.Column="3" Width="140" Margin="2" AutomationProperties.AutomationId="NameText" />
+
+                        <TextBlock     Grid.Row="1" Grid.Column="2" VerticalAlignment="Bottom"><Run Text="تاریخ تولد(*)" /></TextBlock>
+                        <my:DatePicker Name="DateOfBirth"   Grid.Row="1" Grid.Column="3" Width="140"  VerticalAlignment="Top"   Tag="NotProcess"/>
+
+                        <TextBlock Grid.Column="2" Grid.Row="2" VerticalAlignment="Bottom"><Run Text="جنسیت (*)" /></TextBlock>
+                        <ComboBox x:Name="Gender" Grid.Row="2"  Grid.Column="3" Width="140"  Margin="2"  AutomationProperties.AutomationId="NameText" SelectedIndex="0" VerticalAlignment="Bottom"  >
+                            <ComboBoxItem  >زن</ComboBoxItem>
+                            <ComboBoxItem  >مرد</ComboBoxItem>
+                        </ComboBox>
+
+                        <TextBlock Grid.Column="4" Grid.Row="0" VerticalAlignment="Bottom"><Run Text="نوع آشنایی" /></TextBlock>
+                        <TextBox x:Name="TypeOfRelation" Grid.Row="0"  Grid.Column="5" Width="140" Margin="2" AutomationProperties.AutomationId="NameText"/>
+
+                        <TextBlock Grid.Column="4" Grid.Row="1" VerticalAlignment="Bottom"><Run Text="کدملی(*)" /></TextBlock>
+                        <TextBox x:Name="NationalNumber" Grid.Row="1"  Grid.Column="5" Width="140" MaxLength="10" Margin="2" AutomationProperties.AutomationId="NameText"/>
+
+                        <TextBlock Grid.Column="4" Grid.Row="2" VerticalAlignment="Bottom"><Run Text="در وایبر؟" /></TextBlock>
+                        <ComboBox x:Name="IsInViber" Grid.Row="2"  Grid.Column="5" Width="140"  Margin="2"  AutomationProperties.AutomationId="NameText" SelectedIndex="0" VerticalAlignment="Bottom"  >
+                            <ComboBoxItem  >خیر</ComboBoxItem>
+                            <ComboBoxItem  >بله</ComboBoxItem>
+                        </ComboBox>
+
+                        <TextBlock Grid.Column="2" Grid.Row="3" VerticalAlignment="Bottom"><Run Text="زندگی با چه کسی" /></TextBlock>
+                        <TextBox x:Name="LiveWith" Grid.Row="3"  Grid.Column="3" Width="140" Margin="2" AutomationProperties.AutomationId="NameText"/>
+
+                        <TextBlock Grid.Column="0" Grid.Row="3" VerticalAlignment="Bottom"><Run Text="کی بچه را می برد؟" /></TextBlock>
+                        <TextBox x:Name="TakeChild" Grid.Row="3"  Grid.Column="1" Width="140"  Margin="2" AutomationProperties.AutomationId="NameText"/>
+
+
+                        <Button x:Name="Picture" Grid.Column="5" Grid.Row="3"  Width="140" Margin="2" AutomationProperties.AutomationId="NameText" Content="انتخاب عکس" Click="Picture_Click"/>
+                        <Image  x:Name="PictureShow" Grid.Column="5" Grid.Row="4" MaxWidth="100" MaxHeight="35" ></Image>
+
+                        <StackPanel Grid.Column="3" Grid.Row="4" Orientation="Horizontal">
+
+                            <Button Name="Save1" Content="ذخیره" Width="100"  Margin="2" Click="Save_Click" IsDefault="True"></Button>
+                            <Button Name="Edit" Content="ویرایش" Width="100"  Margin="2" Click="Edit_Click"  ></Button>
+                            <Button Name="Delete" Content="حذف" Width="100"  Margin="2"   Click="Delete_Click" ></Button>
+                        </StackPanel>
+                    </Grid>
+                    <TabControl HorizontalAlignment="Stretch">
+                        <TabItem>
+                            <TabItem.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/BoomrangInc;component/Images/Icons/email.png" Width="25" />
+                                    <TextBlock Text="ایمیل" Foreground="Blue"  Margin="2"/>
+                                </StackPanel>
+                            </TabItem.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Column="0"
+                                   Grid.Row="0"
+                                   VerticalAlignment="Bottom"><Run Text="ایمیل(*)" /></TextBlock>
+                                    <TextBox Name="Email"  
+                                     Grid.Column="1"
+                                     Grid.Row="0" 
+                                     Width="100"
+                                     Margin="2" AutomationProperties.AutomationId="NameText"/>
+                                    
+                                    <TextBlock Grid.Column="0"
+                                           Grid.Row="1"
+                                           VerticalAlignment="Bottom"><Run Text="توضیحات" /></TextBlock>
+                                    <TextBox Name="EmailDescription"  
+                                         Grid.Row="1" 
+                                         Grid.Column="1"
+                                         Width="100"
+                                         Margin="2" AutomationProperties.AutomationId="NameText"/>
+
+                                    <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
+                                        <Button ToolTip="ذخیره" Width="40" Margin="2" Click="SaveEmail_Click" IsDefault="True">
+                                            <Image Source="/BoomrangInc;component/Images/ButtonIcons/save.png" />
+                                        </Button>
+                                        <Button ToolTip="حذف" Width="40"   Margin="2"   Click="DeleteEmail_Click" >
+                                            <Image Source="/BoomrangInc;component/Images/ButtonIcons/delete.png" />
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                                <ScrollViewer Grid.Column="1" MinWidth="140">
+                                    <ListView Name="Emails" 
+                                          ItemContainerStyle="{DynamicResource MyItemContainerStyle}"
+                                          SelectedItem ="{Binding Path=SelectedItem}"
+                                          SelectionMode="Single">
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=Email}"  Width="Auto" Header="ایمیل" CellTemplate="{DynamicResource MyDataTemplate}" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=Description}"  Width="Auto"  Header="توضیحات" CellTemplate="{DynamicResource MyDataTemplate}" />
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                </ScrollViewer>
+                            </Grid>
+                        </TabItem>
+                        <TabItem  >
+                            <TabItem.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/BoomrangInc;component/Images/Icons/phone.png"  Width="20" />
+                                    <TextBlock Text="تلفن" Foreground="Red"   Margin="2" />
+                                </StackPanel>
+                            </TabItem.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Column="0"
+                                   Grid.Row="0"
+                                   VerticalAlignment="Bottom"><Run Text="تلفن(*)" /></TextBlock>
+                                    <TextBox Name="Phone"  
+                                         Grid.Column="1"
+                                         Grid.Row="0" 
+                                         Width="100"
+                                         Margin="2" AutomationProperties.AutomationId="NameText"/>
+
+                                    <TextBlock Grid.Column="0"
+                                           Grid.Row="1"
+                                           VerticalAlignment="Bottom"><Run Text="توضیحات" /></TextBlock>
+                                    <TextBox Name="PhoneDescription"  
+                                         Grid.Row="1" 
+                                         Grid.Column="1"
+                                         Width="100"
+                                         Margin="2" AutomationProperties.AutomationId="NameText"/>
+
+                                    <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
+                                        <Button ToolTip="ذخیره" Width="40"  Height="40"   Margin="2" Click="SavePhone_Click" IsDefault="True">
+                                            <Image Source="/BoomrangInc;component/Images/ButtonIcons/save.png" />
+                                        </Button>
+                                        <Button ToolTip="حذف" Width="40"  Height="40" Margin="2"   Click="DeletePhone_Click" >
+                                            <Image Source="/BoomrangInc;component/Images/ButtonIcons/delete.png" />
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                                <ScrollViewer Grid.Column="1" MinWidth="140">
+                                    <ListView Name="Phones" 
+                              ItemContainerStyle="{DynamicResource MyItemContainerStyle}"
+                              SelectedItem ="{Binding Path=SelectedItem}"
+                              SelectionMode="Single">
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=PhoneNumber}"  Width="Auto" Header="تلفن" CellTemplate="{DynamicResource MyDataTemplate}" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=Description}"  Width="Auto"  Header="توضیحات" CellTemplate="{DynamicResource MyDataTemplate}" />
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                </ScrollViewer>
+                            </Grid>
+                        </TabItem>
+                        <TabItem>
+                            <TabItem.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/BoomrangInc;component/Images/Icons/address.png"  Width="20"/>
+                                    <TextBlock Text="آدرس" Foreground="Green"   Margin="2"/>
+                                </StackPanel>
+                            </TabItem.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal" >
+
+                                    <Grid >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Column="0"
+                                       Grid.Row="0"
+                                       VerticalAlignment="Bottom"><Run Text="توضیحات" /></TextBlock>
+                                        <TextBox Name="AddressDescription"  
+                                     Grid.Column="1"
+                                     Grid.Row="0" 
+                                     Width="100"
+                                     Margin="2" AutomationProperties.AutomationId="NameText"/>
+
+                                        <TextBlock Grid.Column="0"
+                                       Grid.Row="1"
+                                       VerticalAlignment="Bottom"><Run Text="کد پستی" /></TextBlock>
+                                        <TextBox Name="ZipCode"  
+                                     Grid.Column="1"
+                                     Grid.Row="1" 
+                                     Width="100"
+                                     Margin="2" AutomationProperties.AutomationId="NameText"/>
+
+                                        <TextBlock Grid.Column="0"
+                                               Grid.Row="2"
+                                               VerticalAlignment="Bottom"><Run Text="آدرس(*)" /></TextBlock>
+                                        <TextBox Name="Address"  
+                                             Grid.Column="1"
+                                             Grid.Row="2" 
+                                             Width="100"
+                                             Margin="2" AutomationProperties.AutomationId="NameText"/>
+                                    </Grid>
+
+                                    <StackPanel Orientation="Vertical">
+                                        <Button ToolTip="ذخیره"   Width="40"  Height="40"  Margin="2" Click="SaveAddress_Click" IsDefault="True">
+                                            <Image Source="/BoomrangInc;component/Images/ButtonIcons/save.png" />
+                                        </Button>
+                                        <Button ToolTip="حذف" Width="40"  Height="40"  Margin="2"   Click="DeleteAddress_Click" >
+                                            <Image Source="/BoomrangInc;component/Images/ButtonIcons/delete.png" />
+                                        </Button>
+                                    </StackPanel>
+                                </StackPanel>
+                                <ScrollViewer Grid.Column="1" MinWidth="140">
+                                    <ListView Name="Addresss" 
+                              ItemContainerStyle="{DynamicResource MyItemContainerStyle}"
+                              SelectedItem ="{Binding Path=SelectedItem}"
+                              SelectionMode="Single">
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=Description}"  Width="Auto" Header="توضیحات" CellTemplate="{DynamicResource MyDataTemplate}" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=ZipCode}"  Width="Auto" Header="کد پستی" CellTemplate="{DynamicResource MyDataTemplate}" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=Address}"  Width="Auto" Header="آدرس" CellTemplate="{DynamicResource MyDataTemplate}" />
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                </ScrollViewer>
+                            </Grid>
+                        </TabItem>
+
+                    </TabControl>
+
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+
+
+
+    </Grid>
+</Page>

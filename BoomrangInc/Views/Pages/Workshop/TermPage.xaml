@@ -1,0 +1,114 @@
+﻿<Page x:Class="BoomrangInc.Views.Pages.TermPage"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:local="clr-namespace:Wpf.Util"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:util="clr-namespace:Wpf.Util"
+      mc:Ignorable="d" 
+  d:DesignHeight="300" d:DesignWidth="1200"
+  Loaded="Page_Loaded"
+   >
+    <Page.Resources>
+        <util:DateConverter x:Key="IndexConverter"/>
+    </Page.Resources>
+    <Grid x:Name="LayoutRoot"   local:AccessKeyScoper.IsAccessKeyScope="True" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+       
+        <ScrollViewer Grid.Row="1"   VerticalAlignment="Stretch">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <ScrollViewer Grid.Row="2" >
+                    <StackPanel>
+
+
+                        <Border Style="{StaticResource HeaderedBorderStyle}"  >
+                            <Grid   >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" VerticalAlignment="Bottom"><Run Text="نام ترم" /></TextBlock>
+                                <TextBox x:Name="Name" Grid.Column="1" Width="150" Margin="2" AutomationProperties.AutomationId="NameText"/>
+
+                                <TextBlock Grid.Column="2"  VerticalAlignment="Bottom"><Run Text="فصل" /></TextBlock>
+                                <TextBox x:Name="Season" Grid.Column="3" Width="150" Margin="2" AutomationProperties.AutomationId="NameText" />
+
+                                <TextBlock Grid.Column="4" VerticalAlignment="Bottom"><Run Text="سال" /></TextBlock>
+                                <TextBox x:Name="Year" Grid.Column="5" Width="150" Margin="2" AutomationProperties.AutomationId="NameText" />
+
+                                <TextBlock Grid.Column="6" VerticalAlignment="Bottom"><Run Text="کاربر تغییر دهنده" /></TextBlock>
+                                <ComboBox x:Name="UserChangeId" Grid.Column="7" Width="150" DisplayMemberPath="FullName" SelectedValuePath="UserId" Margin="2" AutomationProperties.AutomationId="NameText"/>
+
+                                <!--<TextBlock Grid.Column="6" VerticalAlignment="Bottom"><Run Text="سال جاری" /></TextBlock>
+                             
+                                <ComboBox x:Name="IsCurrentTerm"  Grid.Column="7" Width="140"  Margin="2"  AutomationProperties.AutomationId="NameText" SelectedIndex="-1" VerticalAlignment="Bottom"  >
+                                    <ComboBoxItem  >نباشد</ComboBoxItem>
+                                    <ComboBoxItem  >باشد</ComboBoxItem>
+                                </ComboBox>-->
+                                <StackPanel Orientation="Horizontal" Grid.Row="0"   Grid.Column="8">
+                                    <Button Name="Search"  ToolTip="جستجو" Width="30" Margin="2" Click="Search_Click" IsDefault="True" >
+                                        <Image Source="/BoomrangInc;component/Images/ButtonIcons/Search.png"></Image>
+                                    </Button>
+                                    <Button Name="ClearSearch1"    ToolTip="حذف جستجو" Width="30" Margin="2" Click="ClearSearch1_Click" IsCancel="True">
+                                        <Image Source="/BoomrangInc;component/Images/ButtonIcons/Erase.png"></Image>
+                                    </Button>
+                                    <Button Name="ExportExcel"    ToolTip="خروجی اکسل" Width="30" Margin="2" Click="ExportExcel_Click"  >
+                                        <Image Source="/BoomrangInc;component/Images/ButtonIcons/Exel.png" ></Image>
+                                    </Button>
+                                    <Button Name="Print"    ToolTip="چاپ" Width="30" Margin="2" Click="Print_Click"  >
+                                        <Image Source="/BoomrangInc;component/Images/ButtonIcons/Print.png" ></Image>
+                                    </Button>
+
+                                </StackPanel>
+                              
+                            </Grid>
+                        </Border>
+
+                        <ListView Name="DataGrid"  ItemContainerStyle="{DynamicResource MyItemContainerStyle}" SelectedItem ="{Binding Path=SelectedItem}" SelectionMode="Single" SelectionChanged="DataGrid_SelectionChanged" IsSynchronizedWithCurrentItem="True" util:GridViewSort.AutoSort="True">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="ردیف"  Width="35" DisplayMemberBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}} ,  Converter={StaticResource IndexConverter}}" />
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" util:GridViewSort.PropertyName="Name"  Width="Auto" Header="نام ترم" CellTemplate="{DynamicResource MyDataTemplate}" />
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Season}" util:GridViewSort.PropertyName="Season"  Width="Auto" Header="فصل" CellTemplate="{DynamicResource MyDataTemplate}" />
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Year}" util:GridViewSort.PropertyName="Year"  Width="Auto" Header="سال تحصیلی" CellTemplate="{DynamicResource MyDataTemplate}" />
+                                    <GridViewColumn Header="ترم جاری؟" util:GridViewSort.PropertyName="IsCurrentTerm" >
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsEnabled="False" IsChecked="{Binding Path=IsCurrentTerm}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <!--<GridViewColumn DisplayMemberBinding="{Binding Path=IsCurrentTerm}" Width="Auto" Header="ترم جاری؟" CellTemplate="{DynamicResource MyDataTemplate}" />-->
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=UsernameOfChange}" util:GridViewSort.PropertyName="UsernameOfChange"   Width="Auto" Header="فرد تغییر دهنده" CellTemplate="{DynamicResource MyDataTemplate}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </StackPanel>
+                </ScrollViewer>
+
+            </Grid>
+        </ScrollViewer>
+
+    </Grid>
+</Page>
