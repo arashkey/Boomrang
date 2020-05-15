@@ -6,3 +6,6 @@
 <br/>پروژه در دو لایه اصلی و بیزنس طراحی شده
  <br/>
  <img src="./Business/DB/db diagram.png" alt="DB diagram" width=200 height=200 />
+<br/>
+
+- DB script:   [`@DB_script`](/Business/DB/script.sql)
