@@ -1,5 +1,5 @@
 # Boomrang
- کد با Visual Studio 2013  <br/>زده شده
+ کد با Visual Studio 2013  یا بالاتر<br/>زده شده
 ورژن .net Framework 4.0<br/>
 این پروژه با wpf <br/>کار شده
 فایل config در پروژه با کلید EKey <br/>کد شده
